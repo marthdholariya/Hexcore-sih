@@ -1,0 +1,373 @@
+-- SkillTrack Demo/Seed Data
+-- PostgreSQL + Supabase compatible seed
+-- Safe to run when some/all seed rows already exist.
+-- Existing rows are skipped; missing rows are inserted.
+
+BEGIN;
+
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+
+-- public.users
+INSERT INTO public.users (user_id, name, email, phone, password_hash, role, account_status, created_at, updated_at) VALUES
+('10000000-0000-0000-0000-000000000001','Aarav Sharma','aarav.sharma@skilltrack.demo','9876500001','$2a$06$XUkqUDlcxrRjnYxGKDS6deDwPAy1pDi.Ob5QkC/oVLc0Wm1BhOf/q','trainee','active','2026-09-10 19:30:02.457122','2026-09-10 19:30:02.457122'),
+('10000000-0000-0000-0000-000000000002','Priya Patel','priya.patel@skilltrack.demo','9876500002','$2a$06$lczSNBiShBwOxj/XSEb4qews/eF5OzsA.B9d5X.YaMjNM6jRlF9Pe','trainee','active','2026-09-10 19:30:02.457122','2026-09-10 19:30:02.457122'),
+('10000000-0000-0000-0000-000000000003','Rohan Verma','rohan.verma@skilltrack.demo','9876500003','$2a$06$K6d2CPlbhluMZx2fOJ9EkOZeJjPIj.WrOpwk9cBnYV3veA1uBDuxq','trainee','active','2026-09-10 19:30:02.457122','2026-09-10 19:30:02.457122'),
+('10000000-0000-0000-0000-000000000004','Sneha Iyer','sneha.iyer@skilltrack.demo','9876500004','$2a$06$Wk3IkZDzdyG76wKT4DgcV.orY6grAmJlTNKyL2ly8YuS7auCvwqL.','trainee','active','2026-09-10 19:30:02.457122','2026-09-10 19:30:02.457122'),
+('10000000-0000-0000-0000-000000000005','Vikram Singh','vikram.singh@skilltrack.demo','9876500005','$2a$06$8ntMjLV2vQQDLuYc7s/LX.3GAwd2RUNDnvpMtSuQ/agR1pN7XqP5G','trainee','active','2026-09-10 19:30:02.457122','2026-09-10 19:30:02.457122'),
+('10000000-0000-0000-0000-000000000006','Ananya Rao','ananya.rao@skilltrack.demo','9876500006','$2a$06$ZH0ly1alBr/4i5DJfp2GpO3RyjbO/36NalO65OQFrn.xKUJxgTNXK','trainee','active','2026-09-10 19:30:02.457122','2026-09-10 19:30:02.457122'),
+('20000000-0000-0000-0000-000000000001','Neha Mehta','neha.mehta@skilltrack.demo','9876510001','$2a$06$u1GzTYNFXMAINaFM2E3zR.cOaG32ee5IaTvCa2fS09pgjA4Pix9mS','employer','active','2026-09-10 19:30:02.457122','2026-09-10 19:30:02.457122'),
+('20000000-0000-0000-0000-000000000002','Karan Desai','karan.desai@skilltrack.demo','9876510002','$2a$06$mlBXZuNFSI..544E6zois.cTP0N.rgGl8sP0JDDEVIXRHyh6Cuea6','employer','active','2026-09-10 19:30:02.457122','2026-09-10 19:30:02.457122'),
+('20000000-0000-0000-0000-000000000003','Mehul Shah','mehul.shah@skilltrack.demo','9876510003','$2a$06$y98lhkX.CLs2/GOkeBvXGuFCNHxleBiZV4gKD1uCecNj9mCPLQpbi','employer','active','2026-09-10 19:30:02.457122','2026-09-10 19:30:02.457122'),
+('30000000-0000-0000-0000-000000000001','Kavita Joshi','kavita.joshi@skilltrack.demo','9876520001','$2a$06$JtJjXLxGop5YSvFBrFoPJOrPO7t6ZJN1ronceYl3t891cjsruHQ6.','training_provider','active','2026-09-10 19:30:02.457122','2026-09-10 19:30:02.457122'),
+('30000000-0000-0000-0000-000000000002','Rahul Nair','rahul.nair@skilltrack.demo','9876520002','$2a$06$cjsLpwfuxUFhg39dtoR0Iu0UcH5anAho.SQpTTjw8J0YNwz4LxtKe','training_provider','active','2026-09-10 19:30:02.457122','2026-09-10 19:30:02.457122'),
+('40000000-0000-0000-0000-000000000001','Government Analyst','analyst@skilltrack.demo','9876530001','$2a$06$L.kb3XbH4494m3uJVfXFzus1p9Y9vIepY770oULBuaD6dVnqeZZfm','government','active','2026-09-10 19:30:02.457122','2026-09-10 19:30:02.457122')
+ON CONFLICT DO NOTHING;
+
+-- public.employers
+INSERT INTO public.employers (employer_id, user_id, company_name, industry_sector, contact_person, phone, email, address, district, state, status) VALUES
+('21000000-0000-0000-0000-000000000001','20000000-0000-0000-0000-000000000001','TechNova Solutions','Information Technology','Neha Mehta','9876510001','neha.mehta@skilltrack.demo','Hinjewadi Phase 1, Pune','Pune','Maharashtra','active'),
+('21000000-0000-0000-0000-000000000002','20000000-0000-0000-0000-000000000002','GreenGrid Energy','Renewable Energy','Karan Desai','9876510002','karan.desai@skilltrack.demo','Vastrapur, Ahmedabad','Ahmedabad','Gujarat','active'),
+('21000000-0000-0000-0000-000000000003','20000000-0000-0000-0000-000000000003','FinServe Digital','Financial Technology','Mehul Shah','9876510003','mehul.shah@skilltrack.demo','Whitefield, Bengaluru','Bengaluru Urban','Karnataka','active')
+ON CONFLICT DO NOTHING;
+
+-- public.training_providers
+INSERT INTO public.training_providers (provider_id, user_id, name, contact_person, phone, email, address, district, state, status) VALUES
+('31000000-0000-0000-0000-000000000001','30000000-0000-0000-0000-000000000001','SkillForge Training Centre','Kavita Joshi','9876520001','kavita.joshi@skilltrack.demo','Shivajinagar, Pune','Pune','Maharashtra','active'),
+('31000000-0000-0000-0000-000000000002','30000000-0000-0000-0000-000000000002','FutureSkills Institute','Rahul Nair','9876520002','rahul.nair@skilltrack.demo','Kakkanad, Kochi','Ernakulam','Kerala','active')
+ON CONFLICT DO NOTHING;
+
+-- public.trainees
+INSERT INTO public.trainees (trainee_id, user_id, dob, gender, address, district, state, profile_created_at) VALUES
+('11000000-0000-0000-0000-000000000001','10000000-0000-0000-0000-000000000001','2002-05-14','Female','Kothrud, Pune','Pune','Maharashtra','2026-09-10 19:32:29.119592'),
+('11000000-0000-0000-0000-000000000002','10000000-0000-0000-0000-000000000002','2001-11-22','Female','Maninagar, Ahmedabad','Ahmedabad','Gujarat','2026-09-10 19:32:29.119592'),
+('11000000-0000-0000-0000-000000000003','10000000-0000-0000-0000-000000000003','2003-02-08','Male','Indiranagar, Bengaluru','Bengaluru Urban','Karnataka','2026-09-10 19:32:29.119592'),
+('11000000-0000-0000-0000-000000000004','10000000-0000-0000-0000-000000000004','2002-08-19','Female','Anna Nagar, Chennai','Chennai','Tamil Nadu','2026-09-10 19:32:29.119592'),
+('11000000-0000-0000-0000-000000000005','10000000-0000-0000-0000-000000000005','2000-12-03','Male','Andheri East, Mumbai','Mumbai Suburban','Maharashtra','2026-09-10 19:32:29.119592'),
+('11000000-0000-0000-0000-000000000006','10000000-0000-0000-0000-000000000006','2003-06-27','Female','Kakkanad, Kochi','Ernakulam','Kerala','2026-09-10 19:32:29.119592')
+ON CONFLICT DO NOTHING;
+
+-- education.skills
+INSERT INTO education.skills (skill_id, skill_name, skill_category, sector, description) VALUES
+('51000000-0000-0000-0000-000000000001','Python','Technical','Information Technology','Programming language used for software development, automation and data analysis.'),
+('51000000-0000-0000-0000-000000000002','SQL','Technical','Information Technology','Database querying and data manipulation skill.'),
+('51000000-0000-0000-0000-000000000003','React','Technical','Information Technology','Frontend development using the React library.'),
+('51000000-0000-0000-0000-000000000004','JavaScript','Technical','Information Technology','Programming language used for web application development.'),
+('51000000-0000-0000-0000-000000000005','Data Analysis','Analytical','Data Science','Analysis and interpretation of structured and unstructured datasets.'),
+('51000000-0000-0000-0000-000000000006','Excel','Technical','Business Analytics','Spreadsheet-based data analysis, reporting and visualization.'),
+('51000000-0000-0000-0000-000000000007','Communication','Soft Skill','General','Professional verbal and written communication.'),
+('51000000-0000-0000-0000-000000000008','Problem Solving','Soft Skill','General','Ability to analyze problems and develop effective solutions.'),
+('51000000-0000-0000-0000-000000000009','Solar Panel Installation','Technical','Renewable Energy','Installation and basic maintenance of solar photovoltaic systems.'),
+('51000000-0000-0000-0000-000000000010','Electrical Wiring','Technical','Electrical','Electrical wiring, connections and basic safety practices.'),
+('51000000-0000-0000-0000-000000000011','Digital Marketing','Business','Marketing','Online marketing, social media campaigns and digital promotion.'),
+('51000000-0000-0000-0000-000000000012','Customer Service','Soft Skill','Services','Customer interaction, issue resolution and service communication.')
+ON CONFLICT DO NOTHING;
+
+-- education.education
+INSERT INTO education.education (education_id, trainee_id, qualification, institution, field_of_study, start_date, end_date, grade_percentage) VALUES
+('52000000-0000-0000-0000-000000000001','11000000-0000-0000-0000-000000000001','Bachelor of Computer Applications','Savitribai Phule Pune University','Computer Applications','2020-07-01','2023-05-31',78.40),
+('52000000-0000-0000-0000-000000000002','11000000-0000-0000-0000-000000000002','Bachelor of Commerce','Gujarat University','Commerce','2019-07-01','2022-04-30',74.80),
+('52000000-0000-0000-0000-000000000003','11000000-0000-0000-0000-000000000003','Bachelor of Technology','Visvesvaraya Technological University','Computer Science','2020-08-01','2024-06-30',82.10),
+('52000000-0000-0000-0000-000000000004','11000000-0000-0000-0000-000000000004','Bachelor of Science','University of Madras','Computer Science','2020-07-01','2023-05-31',80.60),
+('52000000-0000-0000-0000-000000000005','11000000-0000-0000-0000-000000000005','Diploma','Maharashtra State Board of Technical Education','Electrical Engineering','2019-06-01','2022-05-31',71.50),
+('52000000-0000-0000-0000-000000000006','11000000-0000-0000-0000-000000000006','Bachelor of Business Administration','Mahatma Gandhi University','Business Administration','2020-07-01','2023-05-31',76.20)
+ON CONFLICT DO NOTHING;
+
+-- education.trainee_skills
+INSERT INTO education.trainee_skills (trainee_skill_id, trainee_id, skill_id, skill_level, source, verification_status, date_acquired, last_updated) VALUES
+('53000000-0000-0000-0000-000000000001','11000000-0000-0000-0000-000000000001','51000000-0000-0000-0000-000000000001','Intermediate','Training','Verified','2023-08-15','2026-09-10 19:35:36.74342'),
+('53000000-0000-0000-0000-000000000002','11000000-0000-0000-0000-000000000001','51000000-0000-0000-0000-000000000002','Intermediate','Training','Verified','2023-09-10','2026-09-10 19:35:36.74342'),
+('53000000-0000-0000-0000-000000000003','11000000-0000-0000-0000-000000000001','51000000-0000-0000-0000-000000000003','Beginner','Self Learning','Pending','2024-01-12','2026-09-10 19:35:36.74342'),
+('53000000-0000-0000-0000-000000000004','11000000-0000-0000-0000-000000000001','51000000-0000-0000-0000-000000000007','Advanced','Assessment','Verified','2022-06-15','2026-09-10 19:35:36.74342'),
+('53000000-0000-0000-0000-000000000005','11000000-0000-0000-0000-000000000002','51000000-0000-0000-0000-000000000006','Advanced','Training','Verified','2022-08-20','2026-09-10 19:35:36.74342'),
+('53000000-0000-0000-0000-000000000006','11000000-0000-0000-0000-000000000002','51000000-0000-0000-0000-000000000011','Intermediate','Training','Verified','2022-10-10','2026-09-10 19:35:36.74342'),
+('53000000-0000-0000-0000-000000000007','11000000-0000-0000-0000-000000000002','51000000-0000-0000-0000-000000000012','Advanced','Assessment','Verified','2022-05-15','2026-09-10 19:35:36.74342'),
+('53000000-0000-0000-0000-000000000008','11000000-0000-0000-0000-000000000003','51000000-0000-0000-0000-000000000001','Advanced','Training','Verified','2024-07-15','2026-09-10 19:35:36.74342'),
+('53000000-0000-0000-0000-000000000009','11000000-0000-0000-0000-000000000003','51000000-0000-0000-0000-000000000003','Advanced','Training','Verified','2024-08-20','2026-09-10 19:35:36.74342'),
+('53000000-0000-0000-0000-000000000010','11000000-0000-0000-0000-000000000003','51000000-0000-0000-0000-000000000004','Advanced','Assessment','Verified','2024-06-20','2026-09-10 19:35:36.74342'),
+('53000000-0000-0000-0000-000000000011','11000000-0000-0000-0000-000000000003','51000000-0000-0000-0000-000000000002','Intermediate','Training','Verified','2024-09-01','2026-09-10 19:35:36.74342'),
+('53000000-0000-0000-0000-000000000012','11000000-0000-0000-0000-000000000004','51000000-0000-0000-0000-000000000002','Advanced','Training','Verified','2023-07-15','2026-09-10 19:35:36.74342'),
+('53000000-0000-0000-0000-000000000013','11000000-0000-0000-0000-000000000004','51000000-0000-0000-0000-000000000005','Intermediate','Training','Verified','2023-09-15','2026-09-10 19:35:36.74342'),
+('53000000-0000-0000-0000-000000000014','11000000-0000-0000-0000-000000000004','51000000-0000-0000-0000-000000000007','Advanced','Assessment','Verified','2023-06-15','2026-09-10 19:35:36.74342'),
+('53000000-0000-0000-0000-000000000015','11000000-0000-0000-0000-000000000005','51000000-0000-0000-0000-000000000009','Advanced','Training','Verified','2022-09-10','2026-09-10 19:35:36.74342'),
+('53000000-0000-0000-0000-000000000016','11000000-0000-0000-0000-000000000005','51000000-0000-0000-0000-000000000010','Advanced','Assessment','Verified','2022-07-20','2026-09-10 19:35:36.74342'),
+('53000000-0000-0000-0000-000000000017','11000000-0000-0000-0000-000000000005','51000000-0000-0000-0000-000000000007','Intermediate','Training','Verified','2022-08-01','2026-09-10 19:35:36.74342'),
+('53000000-0000-0000-0000-000000000018','11000000-0000-0000-0000-000000000006','51000000-0000-0000-0000-000000000011','Advanced','Training','Verified','2023-08-10','2026-09-10 19:35:36.74342'),
+('53000000-0000-0000-0000-000000000019','11000000-0000-0000-0000-000000000006','51000000-0000-0000-0000-000000000012','Advanced','Assessment','Verified','2023-07-15','2026-09-10 19:35:36.74342'),
+('53000000-0000-0000-0000-000000000020','11000000-0000-0000-0000-000000000006','51000000-0000-0000-0000-000000000007','Intermediate','Training','Verified','2023-06-15','2026-09-10 19:35:36.74342')
+ON CONFLICT DO NOTHING;
+
+-- training.courses
+INSERT INTO training.courses (course_id, provider_id, course_name, description, sector, job_role, duration, course_level, status) VALUES
+('61000000-0000-0000-0000-000000000001','31000000-0000-0000-0000-000000000001','Full Stack Web Development','Training in frontend and backend web application development.','Information Technology','Full Stack Developer','6 Months','Intermediate','active'),
+('61000000-0000-0000-0000-000000000002','31000000-0000-0000-0000-000000000001','Python and Data Analytics','Practical training in Python programming, SQL and data analysis.','Data Science','Data Analyst','4 Months','Intermediate','active'),
+('61000000-0000-0000-0000-000000000003','31000000-0000-0000-0000-000000000001','Digital Marketing','Training in digital campaigns, social media and online marketing.','Marketing','Digital Marketing Executive','3 Months','Beginner','active'),
+('61000000-0000-0000-0000-000000000004','31000000-0000-0000-0000-000000000002','Solar PV Technician','Practical training in solar panel installation and maintenance.','Renewable Energy','Solar Technician','5 Months','Intermediate','active'),
+('61000000-0000-0000-0000-000000000005','31000000-0000-0000-0000-000000000002','Electrical Technician','Training in electrical wiring, safety and equipment maintenance.','Electrical','Electrical Technician','6 Months','Intermediate','active'),
+('61000000-0000-0000-0000-000000000006','31000000-0000-0000-0000-000000000002','Customer Service Professional','Training in customer communication, service handling and problem resolution.','Services','Customer Service Executive','3 Months','Beginner','active')
+ON CONFLICT DO NOTHING;
+
+-- training.enrollments
+INSERT INTO training.enrollments (enrollment_id, trainee_id, course_id, enrollment_date, start_date, end_date, completion_status, completion_date) VALUES
+('62000000-0000-0000-0000-000000000001','11000000-0000-0000-0000-000000000001','61000000-0000-0000-0000-000000000001','2023-07-01','2023-07-10','2024-01-10','Completed','2024-01-15'),
+('62000000-0000-0000-0000-000000000002','11000000-0000-0000-0000-000000000002','61000000-0000-0000-0000-000000000003','2022-06-15','2022-07-01','2022-09-30','Completed','2022-10-05'),
+('62000000-0000-0000-0000-000000000003','11000000-0000-0000-0000-000000000003','61000000-0000-0000-0000-000000000001','2024-07-01','2024-07-10','2025-01-10','Completed','2025-01-15'),
+('62000000-0000-0000-0000-000000000004','11000000-0000-0000-0000-000000000004','61000000-0000-0000-0000-000000000002','2023-07-01','2023-07-10','2023-11-10','Completed','2023-11-15'),
+('62000000-0000-0000-0000-000000000005','11000000-0000-0000-0000-000000000005','61000000-0000-0000-0000-000000000004','2022-07-01','2022-07-10','2022-12-10','Completed','2022-12-15'),
+('62000000-0000-0000-0000-000000000006','11000000-0000-0000-0000-000000000006','61000000-0000-0000-0000-000000000006','2023-07-01','2023-07-10','2023-10-10','Completed','2023-10-15'),
+('62000000-0000-0000-0000-000000000007','11000000-0000-0000-0000-000000000001','61000000-0000-0000-0000-000000000002','2024-02-01','2024-02-10','2024-06-10','Completed','2024-06-15'),
+('62000000-0000-0000-0000-000000000008','11000000-0000-0000-0000-000000000006','61000000-0000-0000-0000-000000000003','2025-01-05','2025-01-15','2025-04-15','In Progress',NULL)
+ON CONFLICT DO NOTHING;
+
+-- training.assessments
+INSERT INTO training.assessments (assessment_id, enrollment_id, assessment_type, assessment_date, score, max_score, pass_fail, result) VALUES
+('64000000-0000-0000-0000-000000000001','62000000-0000-0000-0000-000000000001','Technical','2023-10-15',84.00,100.00,TRUE,'Pass'),
+('64000000-0000-0000-0000-000000000002','62000000-0000-0000-0000-000000000001','Final','2024-01-10',88.00,100.00,TRUE,'Pass'),
+('64000000-0000-0000-0000-000000000003','62000000-0000-0000-0000-000000000002','Theory','2022-08-10',76.00,100.00,TRUE,'Pass'),
+('64000000-0000-0000-0000-000000000004','62000000-0000-0000-0000-000000000002','Final','2022-09-30',82.00,100.00,TRUE,'Pass'),
+('64000000-0000-0000-0000-000000000005','62000000-0000-0000-0000-000000000003','Technical','2024-10-15',91.00,100.00,TRUE,'Pass'),
+('64000000-0000-0000-0000-000000000006','62000000-0000-0000-0000-000000000003','Final','2025-01-10',94.00,100.00,TRUE,'Pass'),
+('64000000-0000-0000-0000-000000000007','62000000-0000-0000-0000-000000000004','Python','2023-09-15',79.00,100.00,TRUE,'Pass'),
+('64000000-0000-0000-0000-000000000008','62000000-0000-0000-0000-000000000004','Final','2023-11-10',86.00,100.00,TRUE,'Pass'),
+('64000000-0000-0000-0000-000000000009','62000000-0000-0000-0000-000000000005','Practical','2022-10-15',68.00,100.00,TRUE,'Pass'),
+('64000000-0000-0000-0000-000000000010','62000000-0000-0000-0000-000000000005','Final','2022-12-10',72.00,100.00,TRUE,'Pass'),
+('64000000-0000-0000-0000-000000000011','62000000-0000-0000-0000-000000000006','Communication','2023-09-10',89.00,100.00,TRUE,'Pass'),
+('64000000-0000-0000-0000-000000000012','62000000-0000-0000-0000-000000000008','Theory','2025-03-15',64.00,100.00,TRUE,'Pass')
+ON CONFLICT DO NOTHING;
+
+-- training.attendance
+INSERT INTO training.attendance (attendance_id, enrollment_id, attendance_date, is_present, total_sessions, sessions_attended) VALUES
+('63000000-0000-0000-0000-000000000001','62000000-0000-0000-0000-000000000001','2023-08-31',TRUE,20,19),
+('63000000-0000-0000-0000-000000000002','62000000-0000-0000-0000-000000000001','2023-10-31',TRUE,20,18),
+('63000000-0000-0000-0000-000000000003','62000000-0000-0000-0000-000000000002','2022-07-31',TRUE,20,19),
+('63000000-0000-0000-0000-000000000004','62000000-0000-0000-0000-000000000002','2022-09-30',TRUE,20,17),
+('63000000-0000-0000-0000-000000000005','62000000-0000-0000-0000-000000000003','2024-08-31',TRUE,20,20),
+('63000000-0000-0000-0000-000000000006','62000000-0000-0000-0000-000000000003','2024-11-30',TRUE,20,19),
+('63000000-0000-0000-0000-000000000007','62000000-0000-0000-0000-000000000004','2023-08-31',TRUE,20,18),
+('63000000-0000-0000-0000-000000000008','62000000-0000-0000-0000-000000000004','2023-10-31',TRUE,20,17),
+('63000000-0000-0000-0000-000000000009','62000000-0000-0000-0000-000000000005','2022-08-31',TRUE,20,18),
+('63000000-0000-0000-0000-000000000010','62000000-0000-0000-0000-000000000005','2022-11-30',TRUE,20,16),
+('63000000-0000-0000-0000-000000000011','62000000-0000-0000-0000-000000000006','2023-08-31',TRUE,20,19),
+('63000000-0000-0000-0000-000000000012','62000000-0000-0000-0000-000000000006','2023-09-30',TRUE,20,18),
+('63000000-0000-0000-0000-000000000013','62000000-0000-0000-0000-000000000007','2024-03-31',TRUE,20,18),
+('63000000-0000-0000-0000-000000000014','62000000-0000-0000-0000-000000000007','2024-05-31',TRUE,20,19),
+('63000000-0000-0000-0000-000000000015','62000000-0000-0000-0000-000000000008','2025-02-28',TRUE,20,17),
+('63000000-0000-0000-0000-000000000016','62000000-0000-0000-0000-000000000008','2025-03-31',FALSE,20,14)
+ON CONFLICT DO NOTHING;
+
+-- training.certificates
+INSERT INTO training.certificates (certificate_id, enrollment_id, certificate_name, certificate_number, issue_date, expiry_date, issuing_organization, verification_status, certificate_url) VALUES
+('65000000-0000-0000-0000-000000000001','62000000-0000-0000-0000-000000000001','Full Stack Web Development Certificate','ST-FSWD-2024-0001','2024-01-15',NULL,'SkillForge Training Centre','Verified',NULL),
+('65000000-0000-0000-0000-000000000002','62000000-0000-0000-0000-000000000002','Digital Marketing Certificate','ST-DM-2022-0002','2022-10-05',NULL,'SkillForge Training Centre','Verified',NULL),
+('65000000-0000-0000-0000-000000000003','62000000-0000-0000-0000-000000000003','Full Stack Web Development Certificate','ST-FSWD-2025-0003','2025-01-15',NULL,'SkillForge Training Centre','Verified',NULL),
+('65000000-0000-0000-0000-000000000004','62000000-0000-0000-0000-000000000004','Python and Data Analytics Certificate','ST-PDA-2023-0004','2023-11-15',NULL,'SkillForge Training Centre','Verified',NULL),
+('65000000-0000-0000-0000-000000000005','62000000-0000-0000-0000-000000000005','Solar PV Technician Certificate','ST-SPV-2022-0005','2022-12-15',NULL,'FutureSkills Institute','Verified',NULL),
+('65000000-0000-0000-0000-000000000006','62000000-0000-0000-0000-000000000006','Customer Service Professional Certificate','ST-CSP-2023-0006','2023-10-15',NULL,'FutureSkills Institute','Verified',NULL),
+('65000000-0000-0000-0000-000000000007','62000000-0000-0000-0000-000000000007','Python and Data Analytics Certificate','ST-PDA-2024-0007','2024-06-15',NULL,'SkillForge Training Centre','Verified',NULL)
+ON CONFLICT DO NOTHING;
+
+-- employment.employment
+INSERT INTO employment.employment (employment_id, trainee_id, employer_id, job_role, joining_date, leaving_date, employment_type, location, training_related, employment_status) VALUES
+('81000000-0000-0000-0000-000000000001','11000000-0000-0000-0000-000000000001','21000000-0000-0000-0000-000000000001','Junior Full Stack Developer','2025-07-15',NULL,'Full-time','Pune',TRUE,'Employed'),
+('81000000-0000-0000-0000-000000000002','11000000-0000-0000-0000-000000000002','21000000-0000-0000-0000-000000000003','Data Analyst','2025-08-01',NULL,'Full-time','Ahmedabad',TRUE,'Employed'),
+('81000000-0000-0000-0000-000000000003','11000000-0000-0000-0000-000000000003','21000000-0000-0000-0000-000000000002','Solar PV Technician','2025-06-10',NULL,'Full-time','Jaipur',TRUE,'Employed'),
+('81000000-0000-0000-0000-000000000004','11000000-0000-0000-0000-000000000004','21000000-0000-0000-0000-000000000001','Python Developer','2025-09-01',NULL,'Full-time','Bengaluru',TRUE,'Employed'),
+('81000000-0000-0000-0000-000000000005','11000000-0000-0000-0000-000000000005','21000000-0000-0000-0000-000000000002','Electrical Technician','2025-10-15',NULL,'Contract','Delhi',TRUE,'Employed'),
+('81000000-0000-0000-0000-000000000006','11000000-0000-0000-0000-000000000006','21000000-0000-0000-0000-000000000003','Digital Marketing Executive','2026-01-10',NULL,'Full-time','Mumbai',TRUE,'Employed')
+ON CONFLICT DO NOTHING;
+
+-- employment.salary_history
+INSERT INTO employment.salary_history (salary_history_id, employment_id, salary_amount, effective_date, salary_type, source) VALUES
+('82000000-0000-0000-0000-000000000001','81000000-0000-0000-0000-000000000001',480000.00,'2025-07-15','Annual','Employer Verified'),
+('82000000-0000-0000-0000-000000000002','81000000-0000-0000-0000-000000000002',540000.00,'2025-08-01','Annual','Employer Verified'),
+('82000000-0000-0000-0000-000000000003','81000000-0000-0000-0000-000000000003',420000.00,'2025-06-10','Annual','Employer Verified'),
+('82000000-0000-0000-0000-000000000004','81000000-0000-0000-0000-000000000004',600000.00,'2025-09-01','Annual','Employer Verified'),
+('82000000-0000-0000-0000-000000000005','81000000-0000-0000-0000-000000000005',360000.00,'2025-10-15','Annual','Employer Verified'),
+('82000000-0000-0000-0000-000000000006','81000000-0000-0000-0000-000000000006',450000.00,'2026-01-10','Annual','Employer Verified')
+ON CONFLICT DO NOTHING;
+
+-- employment.employment_evidence
+INSERT INTO employment.employment_evidence (evidence_id, employment_id, evidence_type, evidence_url, upload_date, verification_status, reviewer, review_date, comments) VALUES
+('84000000-0000-0000-0000-000000000001','81000000-0000-0000-0000-000000000001','Employment Letter','https://example.com/evidence/employment-001','2026-02-10','Verified','Employer','2026-02-10','Employment evidence reviewed and verified.'),
+('84000000-0000-0000-0000-000000000002','81000000-0000-0000-0000-000000000002','Employment Certificate','https://example.com/evidence/employment-002','2026-02-11','Verified','Employer','2026-02-11','Employment evidence reviewed and verified.'),
+('84000000-0000-0000-0000-000000000003','81000000-0000-0000-0000-000000000003','Appointment Letter','https://example.com/evidence/employment-003','2026-02-12','Verified','Employer','2026-02-12','Employment evidence reviewed and verified.'),
+('84000000-0000-0000-0000-000000000004','81000000-0000-0000-0000-000000000004','Employment Certificate','https://example.com/evidence/employment-004','2026-02-13','Verified','Employer','2026-02-13','Employment evidence reviewed and verified.'),
+('84000000-0000-0000-0000-000000000005','81000000-0000-0000-0000-000000000005','Appointment Letter','https://example.com/evidence/employment-005','2026-02-14','Verified','Employer','2026-02-14','Employment evidence reviewed and verified.'),
+('84000000-0000-0000-0000-000000000006','81000000-0000-0000-0000-000000000006','Employment Letter','https://example.com/evidence/employment-006','2026-02-15','Verified','Employer','2026-02-15','Employment evidence reviewed and verified.')
+ON CONFLICT DO NOTHING;
+
+-- employment.employment_verifications
+INSERT INTO employment.employment_verifications (verification_id, employment_id, employer_id, verified_role, verified_joining_date, verified_status, verification_date, verified_by, comments) VALUES
+('83000000-0000-0000-0000-000000000001','81000000-0000-0000-0000-000000000001','21000000-0000-0000-0000-000000000001','Junior Full Stack Developer','2025-07-15','Verified','2026-02-10','Employer','Employment details confirmed by employer.'),
+('83000000-0000-0000-0000-000000000002','81000000-0000-0000-0000-000000000002','21000000-0000-0000-0000-000000000003','Data Analyst','2025-08-01','Verified','2026-02-11','Employer','Employment details confirmed by employer.'),
+('83000000-0000-0000-0000-000000000003','81000000-0000-0000-0000-000000000003','21000000-0000-0000-0000-000000000002','Solar PV Technician','2025-06-10','Verified','2026-02-12','Employer','Employment details confirmed by employer.'),
+('83000000-0000-0000-0000-000000000004','81000000-0000-0000-0000-000000000004','21000000-0000-0000-0000-000000000001','Python Developer','2025-09-01','Verified','2026-02-13','Employer','Employment details confirmed by employer.'),
+('83000000-0000-0000-0000-000000000005','81000000-0000-0000-0000-000000000005','21000000-0000-0000-0000-000000000002','Electrical Technician','2025-10-15','Verified','2026-02-14','Employer','Employment details confirmed by employer.'),
+('83000000-0000-0000-0000-000000000006','81000000-0000-0000-0000-000000000006','21000000-0000-0000-0000-000000000003','Digital Marketing Executive','2026-01-10','Verified','2026-02-15','Employer','Employment details confirmed by employer.')
+ON CONFLICT DO NOTHING;
+
+-- jobs.jobs
+INSERT INTO jobs.jobs (job_id, employer_id, title, sector, location, district, state, employment_type, salary_min, salary_max, experience_required, education_required, description, posted_date, closing_date, status) VALUES
+('71000000-0000-0000-0000-000000000001','21000000-0000-0000-0000-000000000001','Junior Full Stack Developer','Information Technology','Hinjewadi, Pune','Pune','Maharashtra','Full-time',30000.00,45000.00,'0-2 years','BCA / BSc CS / BTech','Develop and maintain web applications using frontend and backend technologies.','2025-01-10','2025-03-31','closed'),
+('71000000-0000-0000-0000-000000000002','21000000-0000-0000-0000-000000000001','Data Analyst','Data Science','Hinjewadi, Pune','Pune','Maharashtra','Full-time',28000.00,42000.00,'0-2 years','BCA / BSc / BTech / BCom','Analyze business datasets and prepare reports and dashboards.','2025-02-01','2025-04-30','closed'),
+('71000000-0000-0000-0000-000000000003','21000000-0000-0000-0000-000000000001','Frontend Developer','Information Technology','Pune','Pune','Maharashtra','Full-time',26000.00,40000.00,'0-1 years','BCA / BSc CS','Build responsive web interfaces and frontend components.','2025-03-01','2025-05-31','open'),
+('71000000-0000-0000-0000-000000000004','21000000-0000-0000-0000-000000000002','Solar PV Technician','Renewable Energy','Ahmedabad','Ahmedabad','Gujarat','Full-time',22000.00,32000.00,'0-2 years','Diploma / ITI','Install, inspect and maintain solar photovoltaic systems.','2025-01-15','2025-03-15','closed'),
+('71000000-0000-0000-0000-000000000005','21000000-0000-0000-0000-000000000002','Electrical Technician','Electrical','Ahmedabad','Ahmedabad','Gujarat','Full-time',20000.00,30000.00,'0-2 years','Diploma / ITI','Perform electrical installation, wiring and equipment maintenance.','2025-02-10','2025-04-15','closed'),
+('71000000-0000-0000-0000-000000000006','21000000-0000-0000-0000-000000000002','Renewable Energy Assistant','Renewable Energy','Ahmedabad','Ahmedabad','Gujarat','Full-time',18000.00,26000.00,'0-1 years','ITI / Diploma','Assist technical teams with renewable energy installation projects.','2025-04-01','2025-06-30','open'),
+('71000000-0000-0000-0000-000000000007','21000000-0000-0000-0000-000000000003','Digital Marketing Executive','Marketing','Whitefield, Bengaluru','Bengaluru Urban','Karnataka','Full-time',22000.00,35000.00,'0-2 years','BBA / BCom / Any Graduate','Manage digital campaigns, social media content and online promotions.','2025-01-20','2025-03-30','closed'),
+('71000000-0000-0000-0000-000000000008','21000000-0000-0000-0000-000000000003','Customer Service Executive','Services','Whitefield, Bengaluru','Bengaluru Urban','Karnataka','Full-time',20000.00,30000.00,'0-1 years','Any Graduate','Handle customer queries and provide digital service support.','2025-02-15','2025-05-15','open'),
+('71000000-0000-0000-0000-000000000009','21000000-0000-0000-0000-000000000003','Business Data Associate','Data Science','Bengaluru','Bengaluru Urban','Karnataka','Full-time',25000.00,38000.00,'0-2 years','BCom / BBA / BCA','Support business teams with data preparation, analysis and reporting.','2025-03-10','2025-06-15','open')
+ON CONFLICT DO NOTHING;
+
+-- jobs.job_skills
+INSERT INTO jobs.job_skills (job_skill_id, job_id, skill_id, required_level) VALUES
+('72000000-0000-0000-0000-000000000001','71000000-0000-0000-0000-000000000001','51000000-0000-0000-0000-000000000001','Intermediate'),
+('72000000-0000-0000-0000-000000000002','71000000-0000-0000-0000-000000000001','51000000-0000-0000-0000-000000000002','Intermediate'),
+('72000000-0000-0000-0000-000000000003','71000000-0000-0000-0000-000000000001','51000000-0000-0000-0000-000000000003','Intermediate'),
+('72000000-0000-0000-0000-000000000004','71000000-0000-0000-0000-000000000001','51000000-0000-0000-0000-000000000004','Intermediate'),
+('72000000-0000-0000-0000-000000000005','71000000-0000-0000-0000-000000000002','51000000-0000-0000-0000-000000000001','Intermediate'),
+('72000000-0000-0000-0000-000000000006','71000000-0000-0000-0000-000000000002','51000000-0000-0000-0000-000000000002','Intermediate'),
+('72000000-0000-0000-0000-000000000007','71000000-0000-0000-0000-000000000002','51000000-0000-0000-0000-000000000005','Intermediate'),
+('72000000-0000-0000-0000-000000000008','71000000-0000-0000-0000-000000000002','51000000-0000-0000-0000-000000000006','Intermediate'),
+('72000000-0000-0000-0000-000000000009','71000000-0000-0000-0000-000000000003','51000000-0000-0000-0000-000000000003','Intermediate'),
+('72000000-0000-0000-0000-000000000010','71000000-0000-0000-0000-000000000003','51000000-0000-0000-0000-000000000004','Intermediate'),
+('72000000-0000-0000-0000-000000000011','71000000-0000-0000-0000-000000000004','51000000-0000-0000-0000-000000000009','Intermediate'),
+('72000000-0000-0000-0000-000000000012','71000000-0000-0000-0000-000000000004','51000000-0000-0000-0000-000000000010','Beginner'),
+('72000000-0000-0000-0000-000000000013','71000000-0000-0000-0000-000000000005','51000000-0000-0000-0000-000000000010','Intermediate'),
+('72000000-0000-0000-0000-000000000014','71000000-0000-0000-0000-000000000005','51000000-0000-0000-0000-000000000008','Beginner'),
+('72000000-0000-0000-0000-000000000015','71000000-0000-0000-0000-000000000006','51000000-0000-0000-0000-000000000009','Intermediate'),
+('72000000-0000-0000-0000-000000000016','71000000-0000-0000-0000-000000000006','51000000-0000-0000-0000-000000000010','Beginner'),
+('72000000-0000-0000-0000-000000000017','71000000-0000-0000-0000-000000000007','51000000-0000-0000-0000-000000000011','Intermediate'),
+('72000000-0000-0000-0000-000000000018','71000000-0000-0000-0000-000000000007','51000000-0000-0000-0000-000000000007','Intermediate'),
+('72000000-0000-0000-0000-000000000019','71000000-0000-0000-0000-000000000008','51000000-0000-0000-0000-000000000012','Advanced'),
+('72000000-0000-0000-0000-000000000020','71000000-0000-0000-0000-000000000008','51000000-0000-0000-0000-000000000007','Intermediate'),
+('72000000-0000-0000-0000-000000000021','71000000-0000-0000-0000-000000000008','51000000-0000-0000-0000-000000000008','Intermediate'),
+('72000000-0000-0000-0000-000000000022','71000000-0000-0000-0000-000000000009','51000000-0000-0000-0000-000000000002','Intermediate'),
+('72000000-0000-0000-0000-000000000023','71000000-0000-0000-0000-000000000009','51000000-0000-0000-0000-000000000005','Intermediate'),
+('72000000-0000-0000-0000-000000000024','71000000-0000-0000-0000-000000000009','51000000-0000-0000-0000-000000000006','Intermediate'),
+('72000000-0000-0000-0000-000000000025','71000000-0000-0000-0000-000000000009','51000000-0000-0000-0000-000000000008','Beginner')
+ON CONFLICT DO NOTHING;
+
+-- jobs.job_market_data
+INSERT INTO jobs.job_market_data (market_data_id, skill_id, location, sector, job_role, time_period, demand_level, job_postings_count, trend) VALUES
+('73000000-0000-0000-0000-000000000001','51000000-0000-0000-0000-000000000001','Pune','Information Technology','Full Stack Developer','2025-Q1','High',185,'Increasing'),
+('73000000-0000-0000-0000-000000000002','51000000-0000-0000-0000-000000000002','Pune','Information Technology','Data Analyst','2025-Q1','High',142,'Increasing'),
+('73000000-0000-0000-0000-000000000003','51000000-0000-0000-0000-000000000003','Pune','Information Technology','Frontend Developer','2025-Q1','High',128,'Increasing'),
+('73000000-0000-0000-0000-000000000004','51000000-0000-0000-0000-000000000004','Bengaluru','Information Technology','Frontend Developer','2025-Q1','Very High',235,'Increasing'),
+('73000000-0000-0000-0000-000000000005','51000000-0000-0000-0000-000000000005','Bengaluru','Data Science','Data Analyst','2025-Q1','High',178,'Increasing'),
+('73000000-0000-0000-0000-000000000006','51000000-0000-0000-0000-000000000006','Mumbai','Business Analytics','Business Data Associate','2025-Q1','High',156,'Stable'),
+('73000000-0000-0000-0000-000000000007','51000000-0000-0000-0000-000000000009','Ahmedabad','Renewable Energy','Solar Technician','2025-Q1','Very High',116,'Increasing'),
+('73000000-0000-0000-0000-000000000008','51000000-0000-0000-0000-000000000010','Ahmedabad','Electrical','Electrical Technician','2025-Q1','High',98,'Increasing'),
+('73000000-0000-0000-0000-000000000009','51000000-0000-0000-0000-000000000011','Bengaluru','Marketing','Digital Marketing Executive','2025-Q1','High',134,'Increasing'),
+('73000000-0000-0000-0000-000000000010','51000000-0000-0000-0000-000000000007','Bengaluru','Marketing','Digital Marketing Executive','2025-Q1','High',121,'Stable'),
+('73000000-0000-0000-0000-000000000011','51000000-0000-0000-0000-000000000012','Bengaluru','Services','Customer Service Executive','2025-Q1','Very High',204,'Increasing'),
+('73000000-0000-0000-0000-000000000012','51000000-0000-0000-0000-000000000008','Pune','General','Technical Support Associate','2025-Q1','Medium',87,'Stable')
+ON CONFLICT DO NOTHING;
+
+-- followup.attrition_reasons
+INSERT INTO followup.attrition_reasons (reason_id, reason_name, description) VALUES
+('93000000-0000-0000-0000-000000000001','Better Job Opportunity','Trainee left the job after receiving a more suitable employment opportunity.'),
+('93000000-0000-0000-0000-000000000002','Low Salary','Trainee left the job because the compensation was not satisfactory.'),
+('93000000-0000-0000-0000-000000000003','Career Growth','Trainee left the job due to limited opportunities for career growth or advancement.'),
+('93000000-0000-0000-0000-000000000004','Relocation','Trainee left the job because of relocation requirements or change of residence.'),
+('93000000-0000-0000-0000-000000000005','Personal Reasons','Trainee left the job due to personal circumstances.'),
+('93000000-0000-0000-0000-000000000006','Job Role Mismatch','Trainee left the job because the actual role did not match expectations or skills.')
+ON CONFLICT DO NOTHING;
+
+-- followup.non_placement_reasons
+INSERT INTO followup.non_placement_reasons (reason_id, reason_name, description) VALUES
+('92000000-0000-0000-0000-000000000001','Insufficient Skills','Trainee does not currently meet the required skill level for available job opportunities.'),
+('92000000-0000-0000-0000-000000000002','Lack of Suitable Opportunities','Suitable employment opportunities are not currently available in the trainee''s preferred location or field.'),
+('92000000-0000-0000-0000-000000000003','Salary Expectations','Available employment opportunities do not meet the trainee''s expected salary range.'),
+('92000000-0000-0000-0000-000000000004','Relocation Constraints','Trainee is unable or unwilling to relocate for available employment opportunities.'),
+('92000000-0000-0000-0000-000000000005','Further Education','Trainee has chosen to pursue further education instead of immediate employment.'),
+('92000000-0000-0000-0000-000000000006','Personal or Family Reasons','Personal or family circumstances are preventing the trainee from taking up employment.')
+ON CONFLICT DO NOTHING;
+
+-- followup.followups
+INSERT INTO followup.followups (followup_id, trainee_id, milestone_month, scheduled_date, response_date, status) VALUES
+('94000000-0000-0000-0000-000000000001','11000000-0000-0000-0000-000000000001',6,'2026-01-15','2026-01-16','Completed'),
+('94000000-0000-0000-0000-000000000002','11000000-0000-0000-0000-000000000002',6,'2026-02-01','2026-02-02','Completed'),
+('94000000-0000-0000-0000-000000000003','11000000-0000-0000-0000-000000000003',9,'2026-03-10','2026-03-11','Completed'),
+('94000000-0000-0000-0000-000000000004','11000000-0000-0000-0000-000000000004',6,'2026-03-01','2026-03-02','Completed'),
+('94000000-0000-0000-0000-000000000005','11000000-0000-0000-0000-000000000005',3,'2026-01-20','2026-01-21','Completed'),
+('94000000-0000-0000-0000-000000000006','11000000-0000-0000-0000-000000000006',3,'2026-04-10',NULL,'Pending')
+ON CONFLICT DO NOTHING;
+
+-- followup.followup_responses
+INSERT INTO followup.followup_responses (response_id, followup_id, current_employment_status_id, current_job, salary, job_changed, apprenticeship, further_education, unemployed, comments) VALUES
+('95000000-0000-0000-0000-000000000001','94000000-0000-0000-0000-000000000001','91000000-0000-0000-0000-000000000001','Junior Full Stack Developer',40000.00,FALSE,FALSE,FALSE,FALSE,'Trainee is employed in a role related to full stack web development training.'),
+('95000000-0000-0000-0000-000000000002','94000000-0000-0000-0000-000000000002','91000000-0000-0000-0000-000000000001','Data Analyst',45000.00,FALSE,FALSE,FALSE,FALSE,'Trainee is employed as a data analyst in a training-related role.'),
+('95000000-0000-0000-0000-000000000003','94000000-0000-0000-0000-000000000003','91000000-0000-0000-0000-000000000001','Solar PV Technician',35000.00,FALSE,FALSE,FALSE,FALSE,'Trainee is working as a solar PV technician after completing relevant training.'),
+('95000000-0000-0000-0000-000000000004','94000000-0000-0000-0000-000000000004','91000000-0000-0000-0000-000000000001','Python Developer',50000.00,TRUE,FALSE,FALSE,FALSE,'Trainee changed to a Python development role after completing technical training.'),
+('95000000-0000-0000-0000-000000000005','94000000-0000-0000-0000-000000000005','91000000-0000-0000-0000-000000000001','Electrical Technician',30000.00,FALSE,FALSE,FALSE,FALSE,'Trainee is employed as an electrical technician in a training-related role.')
+ON CONFLICT DO NOTHING;
+
+-- followup.employment_status
+INSERT INTO followup.employment_status (status_id, status_name, description) VALUES
+('91000000-0000-0000-0000-000000000001','Employed','Trainee is currently employed.'),
+('91000000-0000-0000-0000-000000000002','Unemployed / Seeking Job','Trainee is currently unemployed and actively seeking employment.'),
+('91000000-0000-0000-0000-000000000003','Self-Employed','Trainee is currently working independently or running a business.'),
+('91000000-0000-0000-0000-000000000004','Further Education','Trainee is pursuing further education or additional qualifications.'),
+('91000000-0000-0000-0000-000000000005','Not Available for Employment','Trainee is temporarily unavailable for employment.')
+ON CONFLICT DO NOTHING;
+
+-- analytics.predictions
+INSERT INTO analytics.predictions (prediction_id, trainee_id, employment_id, prediction_type, probability_score, risk_level, model_version, prediction_date, key_factors) VALUES
+('97000000-0000-0000-0000-000000000001','11000000-0000-0000-0000-000000000001','81000000-0000-0000-0000-000000000001','Employment Probability',0.92,'Low Risk','v1.0','2026-02-20','Completed technical training, strong full-stack skills, high attendance, and verified employment.'),
+('97000000-0000-0000-0000-000000000002','11000000-0000-0000-0000-000000000002','81000000-0000-0000-0000-000000000002','Employment Probability',0.88,'Low Risk','v1.0','2026-02-21','Strong data-analysis skills, completed training, good assessment performance, and verified employment.'),
+('97000000-0000-0000-0000-000000000003','11000000-0000-0000-0000-000000000003','81000000-0000-0000-0000-000000000003','Employment Probability',0.95,'Low Risk','v1.0','2026-02-22','Strong technical skill match, completed solar training, high skill level, and verified employment.'),
+('97000000-0000-0000-0000-000000000004','11000000-0000-0000-0000-000000000004','81000000-0000-0000-0000-000000000004','Employment Probability',0.90,'Low Risk','v1.0','2026-02-23','Strong programming skills, completed technical training, and verified employment in a related role.'),
+('97000000-0000-0000-0000-000000000005','11000000-0000-0000-0000-000000000005','81000000-0000-0000-0000-000000000005','Employment Probability',0.82,'Medium Risk','v1.0','2026-02-24','Relevant electrical training and employment, but moderate skill gap for the target role.'),
+('97000000-0000-0000-0000-000000000006','11000000-0000-0000-0000-000000000006','81000000-0000-0000-0000-000000000006','Employment Probability',0.76,'Medium Risk','v1.0','2026-02-25','Digital marketing training is still in progress and the trainee has a moderate skill gap.')
+ON CONFLICT DO NOTHING;
+
+-- analytics.skill_gap_analysis
+INSERT INTO analytics.skill_gap_analysis (gap_id, trainee_id, job_id, current_level, required_level, gap_level, detected_date) VALUES
+('96000000-0000-0000-0000-000000000001','11000000-0000-0000-0000-000000000001','71000000-0000-0000-0000-000000000001','Intermediate','Advanced','Low','2026-02-20'),
+('96000000-0000-0000-0000-000000000002','11000000-0000-0000-0000-000000000002','71000000-0000-0000-0000-000000000007','Intermediate','Advanced','Medium','2026-02-21'),
+('96000000-0000-0000-0000-000000000003','11000000-0000-0000-0000-000000000003','71000000-0000-0000-0000-000000000004','Advanced','Advanced','None','2026-02-22'),
+('96000000-0000-0000-0000-000000000004','11000000-0000-0000-0000-000000000004','71000000-0000-0000-0000-000000000002','Intermediate','Advanced','Low','2026-02-23'),
+('96000000-0000-0000-0000-000000000005','11000000-0000-0000-0000-000000000005','71000000-0000-0000-0000-000000000005','Intermediate','Advanced','Medium','2026-02-24'),
+('96000000-0000-0000-0000-000000000006','11000000-0000-0000-0000-000000000006','71000000-0000-0000-0000-000000000008','Beginner','Intermediate','Medium','2026-02-25')
+ON CONFLICT DO NOTHING;
+
+-- analytics.recommendations
+INSERT INTO analytics.recommendations (recommendation_id, user_id, user_type, entity_type, entity_id, recommendation_text, priority, status, created_at) VALUES
+('98000000-0000-0000-0000-000000000001','10000000-0000-0000-0000-000000000001','Trainee','Job','71000000-0000-0000-0000-000000000001','Consider advanced full stack development opportunities to strengthen your career progression.','High','Active','2026-09-10 22:25:26.945714'),
+('98000000-0000-0000-0000-000000000002','10000000-0000-0000-0000-000000000002','Trainee','Skill','51000000-0000-0000-0000-000000000005','Improve your Data Analysis skills to better match advanced data analyst opportunities.','High','Active','2026-09-10 22:25:26.945714'),
+('98000000-0000-0000-0000-000000000003','10000000-0000-0000-0000-000000000003','Trainee','Job','71000000-0000-0000-0000-000000000004','Your current skills strongly match solar PV technician opportunities. Continue building practical experience.','Medium','Active','2026-09-10 22:25:26.945714'),
+('98000000-0000-0000-0000-000000000004','10000000-0000-0000-0000-000000000004','Trainee','Skill','51000000-0000-0000-0000-000000000001','Continue improving Python proficiency to support progression into advanced development roles.','High','Active','2026-09-10 22:25:26.945714'),
+('98000000-0000-0000-0000-000000000005','10000000-0000-0000-0000-000000000005','Trainee','Course','61000000-0000-0000-0000-000000000005','Consider additional electrical training to reduce the skill gap for advanced technician positions.','High','Active','2026-09-10 22:25:26.945714'),
+('98000000-0000-0000-0000-000000000006','10000000-0000-0000-0000-000000000006','Trainee','Course','61000000-0000-0000-0000-000000000003','Complete the Digital Marketing course and strengthen practical skills before targeting advanced roles.','High','Active','2026-09-10 22:25:26.945714')
+ON CONFLICT DO NOTHING;
+
+-- planning.data_quality_issues
+INSERT INTO planning.data_quality_issues (issue_id, entity_type, entity_id, issue_type, issue_description, severity, status, detected_date, resolved_date) VALUES
+('9b000000-0000-0000-0000-000000000001','Trainee','11000000-0000-0000-0000-000000000001','Missing Evidence','Employment evidence document has not been uploaded for the trainee record.','Medium','Open','2026-02-20',NULL),
+('9b000000-0000-0000-0000-000000000002','Employment','81000000-0000-0000-0000-000000000002','Verification Delay','Employment record required verification follow-up before being marked fully verified.','Low','Resolved','2026-02-21','2026-02-22'),
+('9b000000-0000-0000-0000-000000000003','Trainee Skill','53000000-0000-0000-0000-000000000005','Outdated Skill Verification','Skill verification information requires an updated verification review.','Medium','Open','2026-02-23',NULL),
+('9b000000-0000-0000-0000-000000000004','Follow-up','94000000-0000-0000-0000-000000000006','Pending Response','Scheduled trainee follow-up has not yet received a response.','Low','Open','2026-02-24',NULL),
+('9b000000-0000-0000-0000-000000000005','Certificate','65000000-0000-0000-0000-000000000007','Missing Certificate URL','Certificate record does not currently contain a document URL.','Low','Resolved','2026-02-25','2026-02-26')
+ON CONFLICT DO NOTHING;
+
+-- planning.training_effectiveness
+INSERT INTO planning.training_effectiveness (effectiveness_id, course_id, provider_id, completion_rate, placement_rate, retention_rate, avg_starting_salary, effectiveness_score, calculated_date) VALUES
+('99000000-0000-0000-0000-000000000001','61000000-0000-0000-0000-000000000001','31000000-0000-0000-0000-000000000001',92.00,85.00,90.00,480000.00,89.00,'2026-02-28'),
+('99000000-0000-0000-0000-000000000002','61000000-0000-0000-0000-000000000002','31000000-0000-0000-0000-000000000001',88.00,82.00,87.00,540000.00,86.00,'2026-02-28'),
+('99000000-0000-0000-0000-000000000003','61000000-0000-0000-0000-000000000003','31000000-0000-0000-0000-000000000002',85.00,78.00,84.00,450000.00,82.00,'2026-02-28'),
+('99000000-0000-0000-0000-000000000004','61000000-0000-0000-0000-000000000004','31000000-0000-0000-0000-000000000002',94.00,90.00,92.00,420000.00,92.00,'2026-02-28'),
+('99000000-0000-0000-0000-000000000005','61000000-0000-0000-0000-000000000005','31000000-0000-0000-0000-000000000002',90.00,80.00,86.00,360000.00,85.00,'2026-02-28'),
+('99000000-0000-0000-0000-000000000006','61000000-0000-0000-0000-000000000006','31000000-0000-0000-0000-000000000002',0.00,0.00,0.00,0.00,0.00,'2026-02-28')
+ON CONFLICT DO NOTHING;
+
+-- planning.whatif_scenarios
+INSERT INTO planning.whatif_scenarios (scenario_id, scenario_name, description, target_course_id, target_skill_id, assumptions, estimated_impact, confidence_level, created_at) VALUES
+('9a000000-0000-0000-0000-000000000001','Improve Full Stack Training Outcomes','Estimate the impact of improving practical training completion and skill development in Full Stack Web Development.','61000000-0000-0000-0000-000000000001','51000000-0000-0000-0000-000000000003','Assume course completion improves by 10 percentage points and React proficiency improves by one skill level.','Expected increase in placement readiness and improved matching with full stack developer opportunities.','High','2026-09-10 22:30:49.409673'),
+('9a000000-0000-0000-0000-000000000002','Strengthen Data Analysis Skills','Estimate the impact of improving Data Analysis skills among trainees targeting analyst roles.','61000000-0000-0000-0000-000000000002','51000000-0000-0000-0000-000000000005','Assume trainees complete additional practical projects and improve Data Analysis proficiency by one level.','Expected reduction in skill gaps and improved eligibility for advanced data analyst positions.','High','2026-09-10 22:30:49.409673'),
+('9a000000-0000-0000-0000-000000000003','Increase Solar Technician Training','Estimate the impact of improving completion and practical exposure in Solar PV Technician training.','61000000-0000-0000-0000-000000000004','51000000-0000-0000-0000-000000000009','Assume practical training hours increase and course completion remains above 90 percent.','Expected improvement in job readiness and placement opportunities for solar technician roles.','Medium','2026-09-10 22:30:49.409673'),
+('9a000000-0000-0000-0000-000000000004','Improve Electrical Skill Proficiency','Estimate the impact of additional practical electrical training for trainees with moderate skill gaps.','61000000-0000-0000-0000-000000000005','51000000-0000-0000-0000-000000000010','Assume additional hands-on practice improves Electrical Wiring proficiency by one level.','Expected reduction in skill gaps and improved suitability for advanced electrical technician positions.','Medium','2026-09-10 22:30:49.409673'),
+('9a000000-0000-0000-0000-000000000005','Complete Digital Marketing Training','Estimate the impact of completing the Digital Marketing course and improving practical marketing skills.','61000000-0000-0000-0000-000000000003','51000000-0000-0000-0000-000000000011','Assume the trainee completes the course and gains practical experience through projects or internships.','Expected improvement in employment readiness and eligibility for digital marketing opportunities.','High','2026-09-10 22:30:49.409673')
+ON CONFLICT DO NOTHING;
+
+COMMIT;
