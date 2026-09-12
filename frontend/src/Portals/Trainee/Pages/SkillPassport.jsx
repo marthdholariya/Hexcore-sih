@@ -1,12 +1,13 @@
 import React from 'react';
+import { useAuth } from '../../../AuthContext';
 
-// Hardcoded Skill Passport Data aligned with ER Diagram entities
+// Skill Passport Data aligned with ER Diagram entities
 const SKILL_PASSPORT_DATA = {
   candidate: {
-    fullName: "Rahul Patil",
+    fullName: "Aarav Sharma",
     candidateId: "MH-2024-TR-84920",
-    email: "rahul.patil@example.com",
-    mobile: "+91 98765 43210",
+    email: "aarav.sharma@skilltrack.demo",
+    mobile: "+91 98765 00001",
     district: "Pune",
     state: "Maharashtra",
     status: "Active Trainee",
@@ -41,7 +42,17 @@ const SKILL_PASSPORT_DATA = {
 };
 
 export default function SkillPassport() {
+  const { user } = useAuth();
   const { candidate, skillsOverview, coreCompetencies, verifiedCredentials } = SKILL_PASSPORT_DATA;
+
+  const displayName = user?.name || candidate.fullName;
+  const displayEmail = user?.email || candidate.email;
+  const initials = displayName
+    .split(" ")
+    .map((w) => w[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
 
   return (
     <div className="space-y-6 font-sans text-slate-800">
@@ -68,21 +79,21 @@ export default function SkillPassport() {
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
           <div className="flex items-center space-x-4">
             <div className="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold text-xl border-2 border-indigo-400/30 shadow-inner">
-              RP
+              {initials}
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <h2 className="text-lg font-bold text-white">{candidate.fullName}</h2>
+                <h2 className="text-lg font-bold text-white">{displayName}</h2>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                  • {candidate.status}
+                  • {user?.account_status || candidate.status}
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-mono mt-0.5">ID: {candidate.candidateId}</p>
+              <p className="text-xs text-slate-400 font-mono mt-0.5">ID: {user?.user_id || candidate.candidateId}</p>
             </div>
           </div>
           <div className="text-right text-xs text-slate-300 space-y-0.5">
             <p>📍 {candidate.district}, {candidate.state}</p>
-            <p>✉️ {candidate.email}</p>
+            <p>✉️ {displayEmail}</p>
             <p>📞 {candidate.mobile}</p>
           </div>
         </div>

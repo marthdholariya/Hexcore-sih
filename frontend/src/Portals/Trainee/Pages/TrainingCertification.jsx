@@ -1,328 +1,386 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 
-// Hardcoded Training & Certification Data matching the UI mockup
-const TRAINING_DATA = {
-  stats: {
-    totalEnrolled: 3,
-    inProgress: 1,
-    completed: 2,
-    overallAttendance: "94.2%",
-    assessmentsPassed: "7 / 7",
-    passRate: "100% Pass",
-    avgScore: "85.4%",
-    verifiedCertificates: 2,
-  },
-  activeCourse: {
-    title: "Web Development L1",
-    status: "In Progress",
-    provider: "VTP Pune (Vocational Training Provider)",
-    batchCode: "MH-VTP-2024-WD01",
-    scheme: "MSSDS Employment Guarantee Initiative",
-    attendancePct: 94,
-    contactHours: "Total: 188 of 200 Required Contact Hours",
-    syllabusPct: 78,
-    activeModule: "Module 4 of 5 active",
-    currentTopic: "Current Topic: Backend APIs & REST Inte...",
-    schedule: "15 Jul 2024 – 30 Nov 2024",
-    isOnTrack: true,
-    targetAssessment: "Target Assessment: 28 Nov 2024 (Practical & Viva)",
-  },
-  evaluations: [
-    {
-      id: 1,
-      name: "Module 3: React & State Architecture",
-      course: "Web Development L1",
-      date: "18 Oct 2024",
-      score: "46 / 50 (92%)",
-      status: "PASS",
-    },
-    {
-      id: 2,
-      name: "Module 2: Advanced JavaScript & DOM",
-      course: "Web Development L1",
-      date: "22 Sep 2024",
-      score: "42 / 50 (84%)",
-      status: "PASS",
-    },
-    {
-      id: 3,
-      name: "Module 1: HTML5 Semantics & Responsive CSS",
-      course: "Web Development L1",
-      date: "14 Aug 2024",
-      score: "48 / 50 (96%)",
-      status: "PASS",
-    },
-    {
-      id: 4,
-      name: "National Skill Qualification Framework (NSQF) L4 Final",
-      course: "Computer Hardware & Networking",
-      date: "10 May 2024",
-      score: "88 / 100 (88%)",
-      status: "PASS",
-    },
-  ],
-  certificates: [
-    {
-      id: 1,
-      title: "Web Development Specialist (NSQF Level 4)",
-      issuer: "Maharashtra State Skill Development Society (MSSDS)",
-      uniqueId: "MH-CERT-2024-88191",
-      issueDate: "12 Oct 2024",
-    },
-    {
-      id: 2,
-      title: "Computer Hardware & Network Maintenance (NSQF Level 3)",
-      issuer: "Maharashtra State Skill Development Society (MSSDS)",
-      uniqueId: "MH-CERT-2024-42891",
-      issueDate: "15 May 2024",
-    },
-  ],
-};
+const API_BASE = "http://localhost:5000";
 
 export default function TrainingCertifications() {
-  const { stats, activeCourse, evaluations, certificates } = TRAINING_DATA;
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchTraining = async () => {
+      try {
+        const savedSession = localStorage.getItem("maha_user_session");
+
+        if (!savedSession) {
+          throw new Error("Session not found. Please login again.");
+        }
+
+        const session = JSON.parse(savedSession);
+
+        if (!session.token) {
+          throw new Error("Authentication token not found.");
+        }
+
+        const response = await fetch(`${API_BASE}/api/training`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${session.token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        const body = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            body.message || "Failed to fetch training data."
+          );
+        }
+
+        setCourses(body.data || []);
+      } catch (err) {
+        console.error("Training error:", err);
+        setError(err.message || "Unable to load training data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTraining();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-sm font-semibold text-slate-500">
+          Loading training data...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 font-sans text-slate-800">
-      
-      {/* Page Header */}
+
+      {/* Error */}
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 rounded-2xl p-4 text-sm font-medium">
+          {error}
+        </div>
+      )}
+
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Training & Certifications</h1>
+          <h1 className="text-2xl font-bold text-slate-900">
+            Training & Certifications
+          </h1>
+
           <p className="text-xs text-slate-500 mt-1">
-            Track active enrollment hours, verified STQC attendance, module evaluations, and credentials.
+            Track your active training courses and certification information.
           </p>
         </div>
-        <button className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs shrink-0 self-start sm:self-auto flex items-center space-x-1.5">
-          <span>👁️</span>
-          <span>View Skill Certificate</span>
+
+        <button
+          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs shrink-0 self-start sm:self-auto"
+          onClick={() => window.location.href = "/trainee/passport"}
+        >
+          👁️ View Skill Passport
         </button>
       </div>
 
-      {/* 4 Key Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        
-        {/* Total Enrolled */}
-        <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs space-y-3 relative overflow-hidden">
-          <div className="flex justify-between items-start">
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Total Enrolled Courses</p>
-              <div className="flex items-baseline space-x-2 mt-1">
-                <span className="text-2xl font-black text-slate-900">{stats.totalEnrolled}</span>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 border border-indigo-100">
-                  {stats.inProgress} In-Progress
-                </span>
-              </div>
+      {/* Course Statistics */}
+      {(() => {
+        const allCertificates = courses.flatMap((c) => c.certificates || []);
+        const totalCertificates = allCertificates.length;
+        const activeCount = courses.filter((c) => {
+          const s = (c.completion_status || c.course_status || c.status || "").toLowerCase();
+          return s === "active" || s === "in progress";
+        }).length;
+        const completedCount = courses.filter((c) => {
+          const s = (c.completion_status || c.course_status || c.status || "").toLowerCase();
+          return s === "completed";
+        }).length;
+
+        return (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Total Courses */}
+            <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                Total Enrolled Courses
+              </p>
+              <p className="text-2xl font-black text-slate-900 mt-1">
+                {courses.length}
+              </p>
+              <p className="text-[11px] font-medium text-slate-500 mt-2">
+                Courses linked to your profile
+              </p>
             </div>
-            <div className="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl">📘</div>
-          </div>
-          <p className="text-[11px] font-medium text-emerald-600 flex items-center space-x-1">
-            <span>✓</span>
-            <span>{stats.completed} Courses Completed</span>
-          </p>
-        </div>
 
-        {/* Overall Attendance */}
-        <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs space-y-3">
-          <div className="flex justify-between items-start">
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Overall Attendance %</p>
-              <p className="text-2xl font-black text-slate-900 mt-1">{stats.overallAttendance}</p>
+            {/* Active Courses */}
+            <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                Active / In-Progress
+              </p>
+              <p className="text-2xl font-black text-slate-900 mt-1">
+                {activeCount}
+              </p>
+              <p className="text-[11px] font-medium text-emerald-600 mt-2">
+                ✓ Currently training
+              </p>
             </div>
-            <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">❇️</div>
-          </div>
-        </div>
 
-        {/* Assessments Passed */}
-        <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs space-y-3">
-          <div className="flex justify-between items-start">
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Assessments Passed</p>
-              <div className="flex items-baseline space-x-2 mt-1">
-                <span className="text-2xl font-black text-slate-900">{stats.assessmentsPassed}</span>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600 border border-amber-100">
-                  {stats.passRate}
-                </span>
-              </div>
+            {/* Completed */}
+            <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                Completed Courses
+              </p>
+              <p className="text-2xl font-black text-slate-900 mt-1">
+                {completedCount}
+              </p>
+              <p className="text-[11px] font-medium text-slate-500 mt-2">
+                Successfully finished
+              </p>
             </div>
-            <div className="p-2.5 bg-amber-50 text-amber-600 rounded-xl">📋</div>
-          </div>
-          <p className="text-[11px] font-medium text-slate-500">
-            📊 Avg. Score: <span className="font-bold text-slate-800">{stats.avgScore}</span>
-          </p>
-        </div>
 
-        {/* Verified Certificates */}
-        <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs space-y-3">
-          <div className="flex justify-between items-start">
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Verified Certificates</p>
-              <p className="text-2xl font-black text-slate-900 mt-1">{stats.verifiedCertificates}</p>
-            </div>
-            <div className="p-2.5 bg-blue-50 text-blue-600 rounded-xl">🛡️</div>
-          </div>
-          <p className="text-[11px] font-medium text-indigo-600 flex items-center space-x-1">
-            <span>🏛️</span>
-            <span>State Skill Council Issued</span>
-          </p>
-        </div>
-
-      </div>
-
-      {/* Active Course Progress Banner */}
-      <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
-          <div className="flex items-center space-x-3">
-            <div className="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl">💻</div>
-            <div>
-              <div className="flex items-center space-x-2">
-                <h2 className="text-base font-bold text-slate-900">{activeCourse.title}</h2>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-600 border border-indigo-200">
-                  • {activeCourse.status}
-                </span>
-              </div>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Training Provider: <span className="font-medium text-slate-700">{activeCourse.provider}</span> • Batch Code: <span className="font-mono text-slate-700">{activeCourse.batchCode}</span> • Scheme: <span className="text-slate-700">{activeCourse.scheme}</span>
+            {/* Certifications */}
+            <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                Verified Certificates
+              </p>
+              <p className="text-2xl font-black text-slate-900 mt-1">
+                {totalCertificates}
+              </p>
+              <p className="text-[11px] font-medium text-indigo-600 mt-2">
+                ✓ Official verified credentials
               </p>
             </div>
           </div>
-          <button className="px-3 py-1.5 border border-slate-200 hover:bg-slate-50 rounded-xl text-xs font-bold text-slate-700 transition-all shadow-xs shrink-0 self-start sm:self-auto flex items-center space-x-1">
-            <span>📖</span>
-            <span>View Curriculum & Syllabus</span>
-          </button>
-        </div>
+        );
+      })()}
 
-        {/* 3 Active Progress Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          
-          {/* Attendance */}
-          <div className="p-4 bg-slate-50/70 rounded-xl border border-slate-200/60 space-y-2">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Attendance</p>
-            <p className="text-2xl font-black text-slate-900">{activeCourse.attendancePct}%</p>
-            <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
-              <div className="bg-emerald-500 h-full rounded-full" style={{ width: `${activeCourse.attendancePct}%` }}></div>
-            </div>
-            <p className="text-[10px] text-slate-500 pt-1">{activeCourse.contactHours}</p>
-          </div>
+      {/* Training Courses */}
+      <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
 
-          {/* Syllabus Covered */}
-          <div className="p-4 bg-slate-50/70 rounded-xl border border-slate-200/60 space-y-2">
-            <div className="flex justify-between items-center">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Syllabus Covered</p>
-              <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">
-                {activeCourse.activeModule}
-              </span>
-            </div>
-            <p className="text-2xl font-black text-slate-900">{activeCourse.syllabusPct}%</p>
-            <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
-              <div className="bg-indigo-600 h-full rounded-full" style={{ width: `${activeCourse.syllabusPct}%` }}></div>
-            </div>
-            <p className="text-[10px] text-slate-500 pt-1 truncate">{activeCourse.currentTopic}</p>
-          </div>
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-5">
 
-          {/* Schedule & Timeline */}
-          <div className="p-4 bg-slate-50/70 rounded-xl border border-slate-200/60 space-y-2 flex flex-col justify-between">
-            <div className="flex justify-between items-center">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Schedule & Timeline</p>
-              <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-100">
-                On Track
-              </span>
-            </div>
-            <p className="text-xs font-bold text-slate-900">{activeCourse.schedule}</p>
-            <div className="p-2 bg-amber-50/80 border border-amber-200/60 rounded-lg text-[10px] text-amber-800 font-medium">
-              📅 {activeCourse.targetAssessment}
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      {/* Assessment & Evaluation History */}
-      <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div>
-            <h2 className="text-sm font-bold text-slate-900">Assessment & Evaluation History</h2>
-            <p className="text-[11px] text-slate-500">Total Evaluations Recorded: {evaluations.length} Modules</p>
+            <h2 className="text-sm font-bold text-slate-900">
+              🎓 My Training Courses
+            </h2>
+
+            <p className="text-[11px] text-slate-500 mt-1">
+              Training records fetched from the backend.
+            </p>
           </div>
-          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center space-x-1">
-            <span>⚙️</span>
-            <span>State Assessor Certified</span>
+
+          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-100">
+            {courses.length} Course{courses.length !== 1 ? "s" : ""}
           </span>
+
         </div>
 
-        {/* Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead>
-              <tr className="border-b border-slate-200 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                <th className="pb-2">Assessment Name</th>
-                <th className="pb-2">Course / Module</th>
-                <th className="pb-2">Date Taken</th>
-                <th className="pb-2">Score Obtained</th>
-                <th className="pb-2 text-right">Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {evaluations.map((item) => (
-                <tr key={item.id} className="hover:bg-slate-50/50 transition-colors">
-                  <td className="py-3 font-bold text-slate-900">{item.name}</td>
-                  <td className="py-3 text-slate-500">{item.course}</td>
-                  <td className="py-3 text-slate-500 font-medium">{item.date}</td>
-                  <td className="py-3 font-bold text-slate-800">{item.score}</td>
-                  <td className="py-3 text-right">
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                      • {item.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        {courses.length === 0 ? (
+          <div className="py-12 text-center text-sm text-slate-500">
+            No training records found.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+
+            {courses.map((course) => (
+              <div
+                key={course.course_id}
+                className="p-5 bg-slate-50/70 rounded-2xl border border-slate-200/70 space-y-4"
+              >
+
+                {/* Course Header */}
+                <div className="flex items-start justify-between gap-3">
+
+                  <div className="flex items-start space-x-3">
+
+                    <div className="p-3 bg-indigo-50 text-indigo-600 rounded-xl shrink-0">
+                      💻
+                    </div>
+
+                    <div>
+                      <h3 className="text-base font-bold text-slate-900">
+                        {course.course_name}
+                      </h3>
+
+                      <p className="text-[11px] text-slate-500 mt-1">
+                        {course.description}
+                      </p>
+                    </div>
+
+                  </div>
+
+                  <span
+                    className={`px-2.5 py-1 rounded-full text-[10px] font-bold shrink-0 ${
+                      (course.completion_status || course.status)?.toLowerCase() === "completed"
+                        ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                        : "bg-indigo-50 text-indigo-700 border border-indigo-100"
+                    }`}
+                  >
+                    • {course.completion_status || course.status}
+                  </span>
+
+                </div>
+
+                {/* Course Information */}
+                <div className="grid grid-cols-2 gap-3">
+
+                  <div className="p-3 bg-white rounded-xl border border-slate-200/70">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                      Sector
+                    </p>
+
+                    <p className="text-xs font-bold text-slate-900 mt-1">
+                      {course.sector || "Not available"}
+                    </p>
+                  </div>
+
+                  <div className="p-3 bg-white rounded-xl border border-slate-200/70">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                      Job Role
+                    </p>
+
+                    <p className="text-xs font-bold text-slate-900 mt-1">
+                      {course.job_role || "Not available"}
+                    </p>
+                  </div>
+
+                  <div className="p-3 bg-white rounded-xl border border-slate-200/70">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                      Duration
+                    </p>
+
+                    <p className="text-xs font-bold text-slate-900 mt-1">
+                      {course.duration || "Not available"}
+                    </p>
+                  </div>
+
+                  <div className="p-3 bg-white rounded-xl border border-slate-200/70">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                      Course Level
+                    </p>
+
+                    <p className="text-xs font-bold text-slate-900 mt-1">
+                      {course.course_level || "Not available"}
+                    </p>
+                  </div>
+
+                </div>
+
+                {/* Provider */}
+                <div className="p-3 bg-white rounded-xl border border-slate-200/70">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    Training Provider
+                  </p>
+                  <p className="text-xs font-bold text-slate-800 mt-1">
+                    {course.provider_name || course.provider_id || "SkillForge Training Centre"}
+                    {course.provider_district && (
+                      <span className="text-[10px] font-normal text-slate-500 ml-1.5">
+                        ({course.provider_district})
+                      </span>
+                    )}
+                  </p>
+                </div>
+
+                {/* Linked Certificates */}
+                {course.certificates && course.certificates.length > 0 && (
+                  <div className="p-3 bg-emerald-50/50 rounded-xl border border-emerald-200/60 space-y-2">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
+                      <span>🎓</span>
+                      <span>Verified Certificate Issued</span>
+                    </p>
+                    {course.certificates.map((cert) => (
+                      <div key={cert.certificate_id} className="flex items-center justify-between text-xs">
+                        <div>
+                          <p className="font-bold text-slate-900">{cert.certificate_name}</p>
+                          <p className="text-[10px] font-mono text-slate-500">
+                            ID: {cert.certificate_number} • Issued: {cert.issue_date}
+                          </p>
+                        </div>
+                        <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200 shrink-0">
+                          ✓ {cert.verification_status}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Course ID */}
+                <div className="pt-2 border-t border-slate-200/70">
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-slate-400">
+                    Course ID
+                  </p>
+                  <p className="text-[10px] font-mono text-slate-500 mt-1 break-all">
+                    {course.course_id}
+                  </p>
+                </div>
+
+              </div>
+            ))}
+
+          </div>
+        )}
+
       </div>
 
-      {/* Verified Skill Certificates */}
-      <div className="space-y-3">
-        <div>
-          <h2 className="text-sm font-bold text-slate-900">Verified Skill Certificates</h2>
-          <p className="text-[11px] text-slate-500">Mapped to training certificates</p>
+      {/* Data Not Available Yet */}
+      <div className="bg-amber-50/70 border border-amber-200 rounded-2xl p-5">
+
+        <h3 className="text-sm font-bold text-slate-900">
+          📋 Additional Training Information
+        </h3>
+
+        <p className="text-xs text-slate-600 mt-1">
+          Attendance, syllabus progress, assessments, evaluations and
+          certificates will appear here once their respective backend APIs
+          are connected.
+        </p>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+
+          <div className="bg-white/70 border border-amber-100 rounded-xl p-3">
+            <p className="text-[10px] font-bold text-slate-400">
+              Attendance
+            </p>
+            <p className="text-xs font-bold text-slate-700 mt-1">
+              API Required
+            </p>
+          </div>
+
+          <div className="bg-white/70 border border-amber-100 rounded-xl p-3">
+            <p className="text-[10px] font-bold text-slate-400">
+              Syllabus
+            </p>
+            <p className="text-xs font-bold text-slate-700 mt-1">
+              API Required
+            </p>
+          </div>
+
+          <div className="bg-white/70 border border-amber-100 rounded-xl p-3">
+            <p className="text-[10px] font-bold text-slate-400">
+              Assessments
+            </p>
+            <p className="text-xs font-bold text-slate-700 mt-1">
+              API Required
+            </p>
+          </div>
+
+          <div className="bg-white/70 border border-amber-100 rounded-xl p-3">
+            <p className="text-[10px] font-bold text-slate-400">
+              Certificates
+            </p>
+            <p className="text-xs font-bold text-slate-700 mt-1">
+              API Required
+            </p>
+          </div>
+
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {certificates.map((cert) => (
-            <div key={cert.id} className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
-              <div className="flex items-start space-x-3">
-                <div className="p-3 bg-indigo-50 text-indigo-600 rounded-xl shrink-0">🎓</div>
-                <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-slate-900 leading-snug">{cert.title}</h3>
-                  <p className="text-[11px] text-slate-500">{cert.issuer}</p>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between text-[10px] font-mono border-t border-b border-slate-100 py-2">
-                <div>
-                  <span className="text-slate-400 block uppercase font-sans">Unique ID</span>
-                  <span className="font-bold text-slate-700">{cert.uniqueId}</span>
-                </div>
-                <div className="text-right">
-                  <span className="text-slate-400 block uppercase font-sans">Issue Date</span>
-                  <span className="font-bold text-slate-700">{cert.issueDate}</span>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2 pt-1">
-                <button className="py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs flex items-center justify-center space-x-1">
-                  <span>👁️</span>
-                  <span>View Certificate</span>
-                </button>
-                <button className="py-2 border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-bold transition-all shadow-xs flex items-center justify-center space-x-1">
-                  <span>📥</span>
-                  <span>Download PDF</span>
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
 
     </div>

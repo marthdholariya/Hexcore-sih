@@ -8,24 +8,43 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const savedSession = localStorage.getItem("maha_user_session");
+
     if (savedSession) {
       try {
-        setUser(JSON.parse(savedSession));
+        const sessionData = JSON.parse(savedSession);
+
+        setUser(sessionData);
+
+        if (sessionData.token) {
+          localStorage.setItem("token", sessionData.token);
+        }
       } catch (e) {
         localStorage.removeItem("maha_user_session");
+        localStorage.removeItem("token");
       }
     }
+
     setLoading(false);
   }, []);
 
   const login = (sessionData) => {
     setUser(sessionData);
-    localStorage.setItem("maha_user_session", JSON.stringify(sessionData));
+
+    localStorage.setItem(
+      "maha_user_session",
+      JSON.stringify(sessionData)
+    );
+
+    if (sessionData.token) {
+      localStorage.setItem("token", sessionData.token);
+    }
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("maha_user_session"); // Clears saved session
+
+    localStorage.removeItem("maha_user_session");
+    localStorage.removeItem("token");
   };
 
   return (

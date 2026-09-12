@@ -8,18 +8,18 @@ const getFollowups = async (req, res) => {
              JOIN public.trainees t
              ON f.trainee_id = t.trainee_id
              WHERE t.user_id = $1
-             ORDER BY f.followup_id`,
+             ORDER BY f.scheduled_date`,
             [req.user.user_id]
         );
 
         res.json({
             success: true,
-            message: "Follow-ups fetched successfully",
+            message: "Follow-up data fetched successfully",
             data: result.rows
         });
 
     } catch (error) {
-        console.error(error);
+        console.error("Follow-up error:", error);
 
         res.status(500).json({
             success: false,

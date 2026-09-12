@@ -47,6 +47,48 @@ export default function FollowUpSurveys() {
   const [followups, setFollowups] = useState(INITIAL_FOLLOWUPS);
   const [activeFollowup, setActiveFollowup] = useState(null);
 
+  useEffect(() => {
+    const fetchFollowups = async () => {
+      try {
+        const token =
+          localStorage.getItem("token") ||
+          (localStorage.getItem("maha_user_session")
+            ? JSON.parse(localStorage.getItem("maha_user_session")).token
+            : null);
+
+        if (!token) return;
+
+        const response = await fetch("http://localhost:5000/api/followups", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        const body = await response.json();
+        if (response.ok && body.data && body.data.length > 0) {
+          const mapped = body.data.map((item) => ({
+            followup_id: item.followup_id,
+            trainee_id: item.trainee_id,
+            milestone_month: item.milestone_month,
+            scheduled_date: item.scheduled_date
+              ? item.scheduled_date.split("T")[0]
+              : "2026-09-15",
+            response_date: item.response_date
+              ? item.response_date.split("T")[0]
+              : null,
+            status: (item.status || "PENDING").toUpperCase(),
+          }));
+          setFollowups(mapped);
+        }
+      } catch (err) {
+        console.warn("Using fallback followup data:", err);
+      }
+    };
+
+    fetchFollowups();
+  }, []);
+
   // Form State mapped 1:1 with `followup_responses` table fields
   const [responseForm, setResponseForm] = useState({
     employment_status_id: '',
@@ -61,8 +103,8 @@ export default function FollowUpSurveys() {
     comments: '',
   });
 
-  const pendingCount = followups.filter((f) => f.status === 'PENDING').length;
-  const completedCount = followups.filter((f) => f.status === 'COMPLETED').length;
+  const pendingCount = followups.filter((f) => (f.status || "").toUpperCase() !== "COMPLETED").length;
+  const completedCount = followups.filter((f) => (f.status || "").toUpperCase() === "COMPLETED").length;
 
   const handleStatusChange = (statusId) => {
     const isUnemployed = statusId === 'emp-05';
