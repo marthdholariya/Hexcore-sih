@@ -1,0 +1,5 @@
+trainee_id,district_code,sector_id,pre_salary,post_salary,status_3m,status_6m,drop_reason,v_aadhaar,v_epfo,v_provider
+TRN_1001,DIST_01,SEC_LOGISTICS,12000,16500,Employed,Employed,NONE,1.0,1.0,1.0
+TRN_1002,DIST_04,SEC_IT_ITES,0,22000,Employed,Unemployed,Wage Issue,1.0,0.0,1.0
+TRN_1003,DIST_01,SEC_HEALTHCARE,10000,10000,Dropped_Out,Dropped_Out,Distance,1.0,0.0,0.0
+TRN_1004,DIST_02,SEC_LOGISTICS,11000,14000,Employed,Employed,NONE,1.0,1.0,0.5
