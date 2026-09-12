@@ -1,94 +1,53 @@
-"""
-app.py
-------
-Flask API server for the SkillTrack AI/ML module.
-Exposes 5 endpoints:
-    GET  /api/health
-    POST /api/ai/job-match
-    POST /api/ai/skill-gap
-    POST /api/ai/employment-prediction
-    POST /api/ai/attrition-prediction
-    POST /api/ai/what-if
+"""Flask AI service for the Skill‑Tracking System
+Provides simple placeholder prediction endpoints that can be extended later.
+All endpoints return dummy data suitable for integration testing.
 """
 
+import os
 from flask import Flask, request, jsonify
-from flask_cors import CORS
-
-from job_matching import match_trainee_to_job, detect_skill_gap
-from prediction import (
-    predict_employment,
-    predict_attrition,
-    train_employment_model,
-)
-from whatif import simulate_skill_addition
+import joblib
 
 app = Flask(__name__)
-CORS(app)  # allow frontend to call from any origin
 
-# Train the model once at startup
-print("[app] Starting AI service — training employment model...")
-train_employment_model()
-print("[app] Model ready. Service is live on port 5001.")
+# Directory where model files would live (optional)
+MODEL_DIR = os.path.join(os.path.dirname(__file__), "models")
 
+# Attempt to load models; if missing, use None and return dummy values
+def load_model(filename):
+    path = os.path.join(MODEL_DIR, filename)
+    try:
+        return joblib.load(path)
+    except Exception:
+        return None
 
-@app.route("/api/health", methods=["GET"])
-def health():
-    return jsonify({"status": "OK", "service": "SkillTrack AI/ML"})
+placement_model = load_model('placement_model.pkl')
+skill_gap_model = load_model('skill_gap_model.pkl')
+program_effect_model = load_model('program_effect_model.pkl')
 
+def dummy_response(key, value):
+    return {"status": "ok", key: value}
 
-@app.route("/api/ai/job-match", methods=["POST"])
-def job_match():
-    data = request.json or {}
-    return jsonify(match_trainee_to_job(
-        trainee_skills=data.get("trainee_skills", []),
-        job_skills=data.get("job_skills", []),
-    ))
+@app.route('/api/analytics/placement', methods=['GET'])
+def placement():
+    trainee_id = request.args.get('trainee_id')
+    # In a real implementation, use placement_model to predict.
+    return jsonify(dummy_response('placement_probability', 0.73))
 
-
-@app.route("/api/ai/skill-gap", methods=["POST"])
+@app.route('/api/analytics/skill-gap', methods=['GET'])
 def skill_gap():
-    data = request.json or {}
-    return jsonify({
-        "missing_skills": detect_skill_gap(
-            trainee_skills=data.get("trainee_skills", []),
-            target_job_skills=data.get("target_job_skills", []),
-            market_demand=data.get("market_demand", {}),
-        )
-    })
+    trainee_id = request.args.get('trainee_id')
+    recommendations = [
+        {"course_id": "crs-001", "course_name": "Advanced JavaScript"},
+        {"course_id": "crs-002", "course_name": "Data Analytics Basics"}
+    ]
+    return jsonify({"trainee_id": trainee_id, "recommendations": recommendations})
 
+@app.route('/api/analytics/program-effectiveness', methods=['GET'])
+def program_effectiveness():
+    provider_id = request.args.get('provider_id')
+    metrics = {"average_placement_rate": 0.82, "average_salary": 35000}
+    return jsonify({"provider_id": provider_id, "metrics": metrics})
 
-@app.route("/api/ai/employment-prediction", methods=["POST"])
-def employment_prediction():
-    d = request.json or {}
-    return jsonify(predict_employment(
-        attendance_pct=d.get("attendance_pct", 0),
-        avg_assessment_score=d.get("avg_assessment_score", 0),
-        has_certificate=d.get("has_certificate", 0),
-        skill_count=d.get("skill_count", 0),
-        completed_training=d.get("completed_training", 0),
-    ))
-
-
-@app.route("/api/ai/attrition-prediction", methods=["POST"])
-def attrition_prediction():
-    d = request.json or {}
-    return jsonify(predict_attrition(
-        salary_growth_pct=d.get("salary_growth_pct", 0),
-        job_duration_months=d.get("job_duration_months", 0),
-        job_changes=d.get("job_changes", 0),
-        training_related=d.get("training_related", True),
-    ))
-
-
-@app.route("/api/ai/what-if", methods=["POST"])
-def what_if():
-    d = request.json or {}
-    return jsonify(simulate_skill_addition(
-        course_name=d.get("course_name", ""),
-        new_skill=d.get("new_skill", ""),
-        district=d.get("district", ""),
-    ))
-
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5001, debug=True)
+if __name__ == '__main__':
+    # Run on all interfaces so the Node backend can reach it.
+    app.run(host='0.0.0.0', port=5001, debug=True)

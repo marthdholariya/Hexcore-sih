@@ -1,28 +1,38 @@
-const pool = require("../config/db");
+const axios = require('axios');
 
-const getAnalytics = async (req, res) => {
-    try {
-        const result = await pool.query(`
-            SELECT *
-            FROM analytics.v_prediction_summary
-        `);
+// Base URL for the Python AI service
+const AI_SERVICE_URL = 'http://localhost:5001';
 
-        res.json({
-            success: true,
-            message: "Analytics data fetched successfully",
-            data: result.rows
-        });
+// Helper to forward request and handle errors
+async function forwardRequest(req, res, path, params = {}) {
+  try {
+    const response = await axios.get(`${AI_SERVICE_URL}${path}`, { params });
+    res.json(response.data);
+  } catch (err) {
+    console.error('[Analytics Controller] Error forwarding request:', err.message);
+    res.status(500).json({ error: 'AI service unavailable', details: err.message });
+  }
+}
 
-    } catch (error) {
-        console.error(error);
-
-        res.status(500).json({
-            success: false,
-            message: "Server error"
-        });
-    }
+// Placeholder generic analytics (optional)
+exports.getAnalytics = async (req, res) => {
+  res.json({ success: true, data: [] });
 };
 
-module.exports = {
-    getAnalytics
+// GET /api/analytics/placement?trainee_id=...
+exports.getPlacement = async (req, res) => {
+  const { trainee_id } = req.query;
+  await forwardRequest(req, res, '/api/analytics/placement', { trainee_id });
+};
+
+// GET /api/analytics/skill-gap?trainee_id=...
+exports.getSkillGap = async (req, res) => {
+  const { trainee_id } = req.query;
+  await forwardRequest(req, res, '/api/analytics/skill-gap', { trainee_id });
+};
+
+// GET /api/analytics/program-effectiveness?provider_id=...
+exports.getProgramEffectiveness = async (req, res) => {
+  const { provider_id } = req.query;
+  await forwardRequest(req, res, '/api/analytics/program-effectiveness', { provider_id });
 };
