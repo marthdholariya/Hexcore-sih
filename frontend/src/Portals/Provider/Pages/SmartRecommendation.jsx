@@ -205,24 +205,26 @@ export default function ProviderRecommendations() {
               {/* Action Buttons */}
               <div className="flex justify-end items-center space-x-2 pt-1">
                 {item.status === 'ACTIVE' && (
-                  <>
+                  <div className="flex space-x-2">
                     <button
-                      onClick={() => handleStatusChange(item.recommendation_id, 'DISMISSED')}
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); handleStatusChange(item.recommendation_id, 'DISMISSED'); }}
                       className="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-500 bg-slate-100 hover:bg-slate-200 transition-colors"
                     >
                       Dismiss
                     </button>
                     <button
-                      onClick={() => handleStatusChange(item.recommendation_id, 'COMPLETED')}
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); handleStatusChange(item.recommendation_id, 'COMPLETED'); }}
                       className="px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-pink-600 hover:bg-pink-700 shadow-xs transition-colors"
                     >
                       Mark as Implemented
                     </button>
-                  </>
+                  </div>
                 )}
                 {item.status !== 'ACTIVE' && (
                   <button
-                    onClick={() => handleStatusChange(item.recommendation_id, 'ACTIVE')}
+                    onClick={(e) => { e.stopPropagation(); handleStatusChange(item.recommendation_id, 'ACTIVE'); }}
                     className="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 border border-slate-200 hover:bg-slate-50 transition-colors"
                   >
                     Reopen Insight

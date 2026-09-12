@@ -23,7 +23,7 @@ export default function Sidebar() {
   const intelligenceNavItems = [
     { name: 'Training Effectiveness Score', path: '/provider/effectiveness', icon: '⭐' },
     { name: 'Job Market Intelligence', path: '/provider/JobMarketIntelligence', icon: '📈' },
-    { name: 'Smart Recommendation', path: '/provider/SmartRecommendation', icon: '💡', badge: 'New' },
+    { name: 'Smart Recommendation', path: '/provider/recommendations', icon: '💡', badge: 'New' },
   ];
 
   const toggleMobileMenu = () => setIsMobileOpen(!isMobileOpen);

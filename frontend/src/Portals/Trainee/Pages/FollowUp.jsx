@@ -23,25 +23,8 @@ const ATTRITION_REASONS = [
   { reason_id: 'att-04', reason_name: 'Joined higher education' },
 ];
 
-// Initial Followups state reflecting the `followups` table structure
-const INITIAL_FOLLOWUPS = [
-  {
-    followup_id: 'flw-001',
-    trainee_id: 'MH-2024-TR-84920',
-    milestone_month: 3,
-    scheduled_date: '2026-09-15',
-    response_date: null,
-    status: 'PENDING',
-  },
-  {
-    followup_id: 'flw-002',
-    trainee_id: 'MH-2024-TR-84920',
-    milestone_month: 1,
-    scheduled_date: '2026-06-15',
-    response_date: '2026-06-10',
-    status: 'COMPLETED',
-  },
-];
+// Start with empty — real data is fetched from the API
+const INITIAL_FOLLOWUPS = [];
 
 export default function FollowUpSurveys() {
   const [followups, setFollowups] = useState(INITIAL_FOLLOWUPS);

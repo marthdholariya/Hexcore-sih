@@ -18,7 +18,7 @@ export default function Sidebar() {
     { name: "My Profile", path: "/trainee/profile", icon: "👤" },
     { name: "Training & Certifications", path: "/trainee/training", icon: "🎓" },
     { name: "Employment & Evidence", path: "/trainee/employment", icon: "💼" },
-    { name: "Follow-up Surveys", path: "/trainee/surveys", icon: "📋", badge: "1 Due" },
+    { name: "Follow-up Surveys", path: "/trainee/surveys", icon: "📋", badge: "" },
     { name: "Skill Passport", path: "/trainee/passport", icon: "🪪" },
   ];
 
@@ -98,7 +98,7 @@ export default function Sidebar() {
                   <span className="truncate">{item.name}</span>
                 </div>
 
-                {item.badge && (
+                {item.badge && !item.badge.startsWith('0') && (
                   <span className="px-1.5 py-0.5 text-[9px] font-extrabold rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30 shrink-0">
                     {item.badge}
                   </span>

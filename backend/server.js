@@ -14,9 +14,17 @@ const errorMiddleware = require("./middleware/error.middleware");
 
 const app = express();
 
+const allowedOrigins = ['http://localhost:5174','https://your-vercel-frontend.vercel.app'];
 app.use(cors({
-    origin: true,
-    credentials: true
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('Not allowed by CORS'), false);
+  },
+  credentials: true,
 }));
 
 // Ensure CORS header matches request origin (fallback to '*')
