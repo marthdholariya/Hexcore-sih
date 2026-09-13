@@ -69,11 +69,16 @@ export default function Login({
   }, [theme]);
 
   function selectRole(nextRole) {
-    setRole(nextRole);
-    setEmail(ROLE_ACCOUNTS[nextRole].email);
-    setPassword("Demo@26135!");
-    setStatus({ type: "", message: "" });
-  }
+  setRole(nextRole);
+  setEmail(ROLE_ACCOUNTS[nextRole].email);
+  setPassword("Demo@26135!");
+
+  // Reset all form/UI state
+  setShowPassword(false);
+  setStatus({ type: "", message: "" });
+  setLoading(false);
+}
+
 
   async function handleSubmit(event) {
     event.preventDefault();
